@@ -15,6 +15,12 @@ sauti_curs = sauti_conn.cursor()
 
 Q = """SELECT * FROM platform_market_prices2 LIMIT 15;"""
 
+Q_count = """SELECT COUNT(id) 
+             FROM platform_market_prices2
+             WHERE id;"""
+sauti_curs.execute(Q_count)
+count = sauti_curs.fetchone()[0]
+
 sauti_curs.execute(Q)
 
 
