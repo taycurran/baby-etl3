@@ -19,7 +19,7 @@ labs_curs = labs_conn.cursor()
 
 def delete_prices_raw():
     # Insert Name of Table to Delete
-    delete_Q = """DROP TABLE IF EXISTS prices_raw;"""
+    delete_Q = """DROP TABLE IF EXISTS raw_data;"""
 
     labs_curs.execute(delete_Q)
     labs_conn.commit()

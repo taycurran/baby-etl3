@@ -30,6 +30,8 @@ labs_conn = pymysql.connect(
                             )
 
 labs_curs = labs_conn.cursor()
+
+print("\nDB Connections Established\n")
 # ----------------------------------------------------------------------------
 # ----- ETL -----
 
@@ -39,18 +41,18 @@ delete_prices_raw()
 create_prices_raw()
 
 # Query Sauti DB
-Q_select_all = """SELECT * FROM platform_market_prices2;"""
+Q_select_all = """SELECT * FROM platform_market_prices2 LIMIT 200;"""
 sauti_curs.execute(Q_select_all)
-print("SELECT Query Excecuted")
+print("\nSELECT Query Excecuted")
 
 # Create List of Sauti Rows
-rows = sauti_curs.fetchall()
+rows = sauti_curs.fetchmany(200)
 print("Cursor Fetch Completed")
 
 # Insert Row by Row Into Labs DB
 for row in rows:
   insert_row = """
-  INSERT INTO prices_raw
+  INSERT INTO raw_data
   (id_sauti, source, country, market, product_cat,
   product_agg, product, date, retail, wholesale,
   currency, unit, active, udate) VALUES 
@@ -75,7 +77,7 @@ for row in rows:
          }
   labs_curs.execute(insert_row, vals)
   labs_conn.commit()
-print("Rows Inserted")
+print("\nRows Inserted")
 
 # Final Commit Just Incase ;)
 labs_conn.commit()
@@ -83,10 +85,12 @@ labs_conn.commit()
 # Close Sauti DB
 sauti_curs.close()
 sauti_conn.close()
-print("Sauti DB Connection Closed.")
+print("\nSauti DB Connection Closed.")
 
 # Close Labs DB
 labs_curs.close()
 labs_conn.close()
 print("Labs DB Connection Closed.")
+
+print("\n----- Done. -----")
 

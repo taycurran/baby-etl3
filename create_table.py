@@ -18,7 +18,8 @@ labs_curs = labs_conn.cursor()
 
 def create_prices_raw():
     create_table_Q = """
-                    CREATE TABLE IF NOT EXISTS prices_raw (
+                    CREATE TABLE IF NOT EXISTS raw_data (
+                        id_labs INT AUTO_INCREMENT PRIMARY KEY,
                         id_sauti INTEGER,
                         source VARCHAR(200),
                         country VARCHAR(50),
